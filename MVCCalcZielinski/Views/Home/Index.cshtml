@@ -1,0 +1,89 @@
+﻿@model MVCCalcZielinski.ViewModels.Home.IndexVM
+
+<style>
+    #calculator {
+        width: 30em;
+        height: 30em;
+        margin: auto;
+        font-size: large;
+    }
+
+    table {
+        width: 100%;
+        height: 100%;
+    }
+
+    td {
+        width: 20%;
+    }
+
+    input {
+        width: 100% !important;
+        height: 100% !important;
+        text-align: right;
+        max-width: none;
+    }
+
+    a.btn {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="jumbotron" id="calculator">
+    <table>
+        <tr>
+            <td colspan="4">
+                <input type="text" disabled class="form-control" value="@Model.Text" />
+            </td>
+            @TdButton("C")
+        </tr>
+        <tr>
+            @TdButton("7")
+            @TdButton("8")
+            @TdButton("9")
+            @TdButton("/")
+            @TdButton("sqrt")
+        </tr>
+        <tr>
+            @TdButton("4")
+            @TdButton("5")
+            @TdButton("6")
+            @TdButton("*")
+            @TdButton("%")
+        </tr>
+        <tr>
+            @TdButton("1")
+            @TdButton("2")
+            @TdButton("3")
+            @TdButton("-")
+            <td rowspan="2">@Button("=")</td>
+        </tr>
+        <tr>
+            @TdButton("0")
+            <td><a href="?command=." class="btn btn-default" @(Model.DecimalPointEnabled ? "" : "disabled" )>.</a></td>
+            @TdButton("+/-")
+            @TdButton("+")
+        </tr>
+    </table>
+</div>
+
+@helper TdButton(string command)
+{
+    <td>
+        @Button(command)
+    </td>
+}
+
+@helper Button(string command)
+{
+    if (Model.ButtonsEnabled || command == "C")
+    {
+            @Html.ActionLink(command, "Command", new { command = command }, new { @class = "btn btn-default" });
+    }
+    else
+    {
+            @Html.ActionLink(command, "Command", new { command = command }, new { @class = "btn btn-default", disabled = "disabled" });
+    }
+}
